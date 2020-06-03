@@ -4,14 +4,14 @@ import Mushroom from '../sprites/Mushroom'
 import lang from '../lang'
 
 export default class extends Phaser.State {
-  init() { }
-  preload() { }
+  init () { }
+  preload () { }
 
-  create() {
+  create () {
     const bannerText = lang.text('welcome')
     let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText, {
       font: '40px Bangers',
-      fill: '#77BFA3',
+      fill: '#7791bf',
       smoothed: false
     })
 
@@ -28,7 +28,7 @@ export default class extends Phaser.State {
     this.game.add.existing(this.mushroom)
   }
 
-  render() {
+  render () {
     if (__DEV__) {
       this.game.debug.spriteInfo(this.mushroom, 32, 32)
     }
