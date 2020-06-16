@@ -1,8 +1,6 @@
-/* globals __DEV__ */
 import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom'
-import Moon from '../sprites/Moon'
-import lang from '../lang'
+import Moon from '../sprites/moon'
 
 export default class extends Phaser.State {
   init () {
@@ -12,16 +10,6 @@ export default class extends Phaser.State {
   }
 
   create () {
-    // const bannerText = lang.text('welcome')
-    // let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText, {
-    //   font: '40px Bangers',
-    //   fill: '#7791bf',
-    //   smoothed: false
-    // })
-    //
-    // banner.padding.set(10, 16)
-    // banner.anchor.setTo(0.5)
-
     this.mushroom = new Mushroom({
       game: this.game,
       x: this.world.centerX,
@@ -38,20 +26,55 @@ export default class extends Phaser.State {
       asset: 'moon'
     })
 
+    this.moon2 = new Moon({
+      game: this.game,
+      x: 300,
+      y: 200,
+      vx: 0,
+      vy: 1.5,
+      asset: 'moon'
+    })
+
+    this.moon3 = new Moon({
+      game: this.game,
+      x: 250,
+      y: 100,
+      vx: 0,
+      vy: 0.6,
+      asset: 'moon'
+    })
+
+    this.moon4 = new Moon({
+      game: this.game,
+      x: 250,
+      y: 300,
+      vx: 0.7,
+      vy: 0.6,
+      asset: 'moon'
+    })
+
+    this.moon5 = new Moon({
+      game: this.game,
+      x: 550,
+      y: 300,
+      vx: 0,
+      vy: -0.6,
+      asset: 'moon'
+    })
+
     this.game.add.existing(this.mushroom)
     this.game.add.existing(this.moon)
+    this.game.add.existing(this.moon2)
+    this.game.add.existing(this.moon3)
+    this.game.add.existing(this.moon4)
+    this.game.add.existing(this.moon5)
   }
 
-  render () {
-    if (__DEV__) {
-      this.game.debug.spriteInfo(this.mushroom, 8, 8)
-      this.game.debug.spriteInfo(this.moon, 8, 8)
-    }
-
-    let distX = this.mushroom.x - this.moon.x
-    let distY = this.mushroom.y - this.moon.y
+  calculateMovements (core, satel) {
+    let distX = core.x - satel.x
+    let distY = core.y - satel.y
     let dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2))
-    dist = dist < 50 ? 50 : dist
+    dist = dist < 10 ? 10 : dist
 
     let G = 200
 
@@ -61,11 +84,18 @@ export default class extends Phaser.State {
     let accX = acc * Math.cos(ang)
     let accY = acc * Math.sin(ang)
 
-    this.moon.vx += accX
-    this.moon.vy += accY
+    satel.vx += accX
+    satel.vy += accY
 
-    this.moon.x += this.moon.vx
-    this.moon.y += this.moon.vy
+    satel.x += satel.vx
+    satel.y += satel.vy
+  }
 
+  render () {
+    this.calculateMovements(this.mushroom, this.moon)
+    this.calculateMovements(this.mushroom, this.moon2)
+    this.calculateMovements(this.mushroom, this.moon3)
+    this.calculateMovements(this.mushroom, this.moon4)
+    this.calculateMovements(this.mushroom, this.moon5)
   }
 }
