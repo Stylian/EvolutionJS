@@ -1,34 +1,37 @@
 import Phaser from 'phaser'
-import Mushroom from '../sprites/Mushroom'
+import World from '../sprites/World'
 import Moon from '../sprites/moon'
 
 export default class extends Phaser.State {
   init () {
+    this.stage.backgroundColor = '#EDEEC9'
   }
 
   preload () {
+    this.load.image('world', 'assets/images/world.png')
+    this.load.image('moon', 'assets/images/moon.png')
   }
 
   create () {
-    this.mushroom = new Mushroom({
+    this.world = new World({
       game: this.game,
-      x: this.world.centerX,
-      y: this.world.centerY,
-      asset: 'mushroom'
+      x: 200,
+      y: 200,
+      asset: 'world'
     })
 
     this.moon = new Moon({
       game: this.game,
-      x: 200,
+      x: 150,
       y: 200,
       vx: 0,
-      vy: 0.7,
+      vy: 1.7,
       asset: 'moon'
     })
 
     this.moon2 = new Moon({
       game: this.game,
-      x: 300,
+      x: 100,
       y: 200,
       vx: 0,
       vy: 1.5,
@@ -37,37 +40,17 @@ export default class extends Phaser.State {
 
     this.moon3 = new Moon({
       game: this.game,
-      x: 250,
-      y: 100,
+      x: 50,
+      y: 200,
       vx: 0,
-      vy: 0.6,
+      vy: 1.1,
       asset: 'moon'
     })
 
-    this.moon4 = new Moon({
-      game: this.game,
-      x: 250,
-      y: 300,
-      vx: 0.7,
-      vy: 0.6,
-      asset: 'moon'
-    })
-
-    this.moon5 = new Moon({
-      game: this.game,
-      x: 550,
-      y: 300,
-      vx: 0,
-      vy: -0.6,
-      asset: 'moon'
-    })
-
-    this.game.add.existing(this.mushroom)
+    this.game.add.existing(this.world)
     this.game.add.existing(this.moon)
     this.game.add.existing(this.moon2)
     this.game.add.existing(this.moon3)
-    this.game.add.existing(this.moon4)
-    this.game.add.existing(this.moon5)
   }
 
   calculateMovements (core, satel) {
@@ -92,10 +75,8 @@ export default class extends Phaser.State {
   }
 
   render () {
-    this.calculateMovements(this.mushroom, this.moon)
-    this.calculateMovements(this.mushroom, this.moon2)
-    this.calculateMovements(this.mushroom, this.moon3)
-    this.calculateMovements(this.mushroom, this.moon4)
-    this.calculateMovements(this.mushroom, this.moon5)
+    this.calculateMovements(this.world, this.moon)
+    this.calculateMovements(this.world, this.moon2)
+    this.calculateMovements(this.world, this.moon3)
   }
 }
