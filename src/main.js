@@ -1,31 +1,14 @@
-import 'pixi'
-import 'p2'
 import Phaser from 'phaser'
 
-import GameState from './states/Game'
-import config from './config'
+import GameState from './states/BasicFixedGravity'
 
 class Game extends Phaser.Game {
-  constructor () {
-    const docElement = document.documentElement
-    const width = docElement.clientWidth > config.gameWidth ? config.gameWidth : docElement.clientWidth
-    const height = docElement.clientHeight > config.gameHeight ? config.gameHeight : docElement.clientHeight
-
+  constructor (width, height, gameToRun) {
     super(width, height, Phaser.CANVAS, 'content', null)
 
-    this.state.add('Game', GameState, false)
-    this.state.start('Game')
+    this.state.add(gameToRun, GameState, false)
+    this.state.start(gameToRun)
   }
 }
 
-window.game = new Game()
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js').then(registration => {
-      console.log('SW registered: ', registration)
-    }).catch(registrationError => {
-      console.log('SW registration failed: ', registrationError)
-    })
-  })
-}
+window.game = new Game(400, 400, 'BasicFixedGravity')
